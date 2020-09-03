@@ -22,11 +22,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* USB Device descriptor parameter */
 
-#define VENDOR_ID       0xFEED
-#define PRODUCT_ID      0x6060
-#define DEVICE_VER      0x0001
-#define MANUFACTURER    SouthpawDesign
-#define PRODUCT         centromere_plus
+#define VENDOR_ID 0xFEED
+#define PRODUCT_ID 0x6060
+#define DEVICE_VER 0x0001
+#define MANUFACTURER SouthpawDesign
+#define PRODUCT centromere_plus
 #define DESCRIPTION     q.m.k. keyboard firmware for centromere+
 
 /* key matrix size */
@@ -40,12 +40,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define BACKLIGHT_LEVELS 3
 
 #define ONESHOT_TIMEOUT 500
-
+#define TAPPING_TERM 250
 
 /* key combination for command */
-#define IS_COMMAND() ( \
-    keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)) \
-)
+#define IS_COMMAND() (keyboard_report->mods == (MOD_BIT(KC_LSHIFT) | MOD_BIT(KC_RSHIFT)))
 
 /*
  * Feature disable options
@@ -67,21 +65,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //#define NO_ACTION_MACRO
 //#define NO_ACTION_FUNCTION
 
-//UART settings for communication with the RF microcontroller
+// UART settings for communication with the RF microcontroller
 #define SERIAL_UART_BAUD 500000
 #define SERIAL_UART_DATA UDR1
 #define SERIAL_UART_UBRR (F_CPU / (16UL * SERIAL_UART_BAUD) - 1)
 #define SERIAL_UART_TXD_READY (UCSR1A & _BV(UDRE1))
 #define SERIAL_UART_RXD_PRESENT (UCSR1A & _BV(RXC1))
-#define SERIAL_UART_INIT() do { \
-    	/* baud rate */ \
-    	UBRR1L = SERIAL_UART_UBRR; \
-    	/* baud rate */ \
-    	UBRR1H = SERIAL_UART_UBRR >> 8; \
-    	/* enable TX and RX */ \
-    	UCSR1B = _BV(TXEN1) | _BV(RXEN1); \
-    	/* 8-bit data */ \
-    	UCSR1C = _BV(UCSZ11) | _BV(UCSZ10); \
-  	} while(0)
+#define SERIAL_UART_INIT()                  \
+    do {                                    \
+        /* baud rate */                     \
+        UBRR1L = SERIAL_UART_UBRR;          \
+        /* baud rate */                     \
+        UBRR1H = SERIAL_UART_UBRR >> 8;     \
+        /* enable TX and RX */              \
+        UCSR1B = _BV(TXEN1) | _BV(RXEN1);   \
+        /* 8-bit data */                    \
+        UCSR1C = _BV(UCSZ11) | _BV(UCSZ10); \
+    } while (0)
 
 #endif
